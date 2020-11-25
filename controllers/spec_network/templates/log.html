@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Flask-SocketIO-Chat: {{ room }}</title>
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var socket;
+        $(document).ready(function () {
+            socket = io.connect('http://' + document.domain + ':' + location.port + '/thermoai');
+            socket.on('make_connect', function () {
+                socket.emit('joined', {});
+            });
+            socket.on('logs', function (data) {
+                console.log("DVMDDDDMDMDMD")
+                $('#chat').val($('#chat').val() + data.msg + '\n');
+                $('#chat').scrollTop($('#chat')[0].scrollHeight);
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+<h1>Flask-SocketIO-LOG</h1>
+<textarea id="chat" cols="80" rows="20"></textarea><br><br>
+</body>
+</html>

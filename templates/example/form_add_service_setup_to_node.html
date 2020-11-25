@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="main">
+
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form">
+
+
+                    <form method="POST" class="register-form" id="register-form1"
+                          action="/api/v1/tools/installation/add_service_setup_to_node" style="
+    margin: 1%;
+    box-sizing: border-box;
+
+    border: 1px solid #d4c6c6;">
+                        <h3 style="color:red">run deployment_id + service_setup_index</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div class="form-input">
+                                    <label for="node_id" class="required">Node</label>
+
+                                    <select name="node_id" id="node_id" class="select-css">
+                                        {% for node in list_node_id %}
+                                            <option value={{ node['id'] }}>{{ node['display_name'] }}</option>
+                                        {% endfor %}
+
+                                    </select>
+
+                                    {#                                <input type="number" name="deployment_id" id="deployment_id2" />#}
+                                </div>
+                                <div class="form-input">
+                                    <label for="list_service_name" class="required">Service_Name</label>
+                                    <select name="service_setup_name" id="service_setup_name" class="select-css">
+                                        {% for service in list_service_name %}
+                                            <option value={{ service }}>{{ service }}</option>
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+                                <div class="form-input" style="display: none">
+                                    <label for="method2" class="required" readonly>method</label>
+                                    <input type="text" name="method" value='Install' id="method2"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-submit">
+                            <input type="submit" value="Submit" class="submit" id="submit_2" name="submit"/>
+                        </div>
+                    </form>
+
+
+                    <div class="donate-us" style="float:left;width: 100%">
+                        <label>Donate us <br>
+                            {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+
+                                    {% for message in messages %}
+                                        {{ message }}
+                                    {% endfor %}
+
+                                {% endif %}
+                            {% endwith %}
+                        </label>
+                        <div class="price_slider ui-slider ui-slider-horizontal">
+                            <div id="slider-margin"></div>
+                            <span class="donate-value" id="value-lower"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

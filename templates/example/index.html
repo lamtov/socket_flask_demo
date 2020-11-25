@@ -1,0 +1,187 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Video Streaming Demonstration</title>
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <!--    <script src="{{ url_for('static', filename='js/main.js') }}"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I="
+            src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+
+</head>
+
+<style>
+    input[type=text], select {
+        /*width: 70%;*/
+        padding: 12px 20px;
+        /*margin: 8px 0;*/
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        /*margin-left:auto;*/
+        /*margin-right:auto;*/
+        /*margin-top: 1em;*/
+        width: 200px;
+        margin: auto;
+
+    }
+
+    input[type=submit] {
+        width: 70%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+
+    body {
+        background-color: lightblue;
+    }
+
+    .img-video {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%
+    }
+
+
+</style>
+
+<body>
+<h1><b style="color:#F5FBEF; margin-left: 40px">体温検知システム</b></h1>
+<div class="row" style="margin-top: 2em">
+    <div class="col-sm-8">
+        <img class="img-video" height="720"
+             id="imageElement" src="" width="960">
+    </div>
+    <div class="col-sm-4">
+        <div class="col-sm-3">
+            <b id="time_1" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_1" src="static/images/person.png" width="90">
+            <b id="temp_1" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+        <div class="col-sm-3">
+            <b id="time_2" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_2" src="static/images/person.png" width="90">
+            <b id="temp_2" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+        <div class="col-sm-3">
+            <b id="time_3" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_3" src="static/images/person.png" width="90">
+            <b id="temp_3" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+        <div class="col-sm-3">
+            <b id="time_4" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_4" src="static/images/person.png" width="90">
+            <b id="temp_4" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+
+        <div class="col-sm-3">
+            <b id="time_5" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_5" src="static/images/person.png" width="90">
+            <b id="temp_5" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+        <div class="col-sm-3">
+            <b id="time_6" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_6" src="static/images/person.png" width="90">
+            <b id="temp_6" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+        <div class="col-sm-3">
+            <b id="time_7" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_7" src="static/images/person.png" width="90">
+            <b id="temp_7" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+        <div class="col-sm-3">
+            <b id="time_8" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_8" src="static/images/person.png" width="90">
+            <b id="temp_8" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+
+        <div class="col-sm-3">
+            <b id="time_9" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_9" src="static/images/person.png" width="90">
+            <b id="temp_9" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+        <div class="col-sm-3">
+            <b id="time_10" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_10" src="static/images/person.png" width="90">
+            <b id="temp_10" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+        <div class="col-sm-3">
+            <b id="time_11" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_11" src="static/images/person.png" width="90">
+            <b id="temp_11" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+        <div class="col-sm-3">
+            <b id="time_12" style="color:#F5FBEF">Time... </b>
+            <img alt="Forest" class="image_list" height="120" id="img_12" src="static/images/person.png" width="90">
+            <b id="temp_12" style="color:#F91919; text-align: center">Temp... </b>
+        </div>
+
+    </div>
+</div>
+<div class="row" style="margin-top: 2em;">
+    <div class="col-sm-2">
+        <button class="btn btn-secondary btn-block btn-lg button_predict"
+                id="btn-adjust-temp"
+                style="background-color:#005ce6; margin-left:auto;margin-right:auto; margin-top: 1em; width: 200px;"
+                type="button">
+            <i class="fas fa-arrow-right" style="color:#F5FBEF">キャリブレーション</i>
+        </button>
+    </div>
+
+    <div class="col-sm-2">
+        <input id="text-adjust-temp" name="lname" placeholder="デフォルト: 0.0" style="margin-top: 1.35em;"
+               type="text">
+    </div>
+
+    <div class="col-sm-2">
+        <button class="btn btn-secondary btn-block btn-lg"
+                id="btn-adjust-register"
+                style="background-color:#005ce6; margin-left:auto;margin-right:auto; margin-top: 1em; width: 200px;"
+                type="button">
+            <i class="fas fa-arrow-right" style="color:#F5FBEF">登録</i>
+        </button>
+    </div>
+
+    <div class="col-sm-2">
+        <input id="text-adjust-register" name="lname"
+               placeholder="高体温閾値: 37.5" style="margin-top: 1.35em;"
+               type="text">
+    </div>
+
+    <div class="col-sm-4">
+        <button class="btn btn-secondary btn-block btn-lg button_predict"
+                id="btn-clear-all"
+                style="background-color:#ff0000; margin-left:auto;margin-right:auto; margin-top: 1em; width: 200px;"
+                type="button">
+            <i class="fas fa-arrow-right" style="color:#F5FBEF">クリア</i>
+        </button>
+    </div>
+</div>
+
+</body>
+
+<footer>
+    <!--    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>-->
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>-->
+    <!--    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>-->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</footer>
+
+</html>

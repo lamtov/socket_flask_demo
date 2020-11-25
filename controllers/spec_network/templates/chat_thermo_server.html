@@ -1,0 +1,98 @@
+<html>
+<head>
+    <title>Flask-SocketIO-Chat: {{ room }}</title>
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var socket;
+        $(document).ready(function () {
+            socket = io.connect('http://' + document.domain + ':' + location.port + '/thermoai');
+            socket.on('make_connect', function () {
+                socket.emit('joined', {});
+            });
+            socketmonitor = io.connect('http://' + document.domain + ':' + location.port + '/monitor');
+            socketmonitor.emit('thermoai_view', {'id': 1});
+            socketmonitor.on('image_frame', function (data) {
+                $('#chat').val('');
+                $('#chat').val($('#chat').val() + "take image from: server" + '\n');
+                $('#chat').val($('#chat').val() + "image_frame: " + data + '\n');
+                $('#chat').scrollTop(0);
+            });
+
+
+            socket.on('joined', function (data) {
+                console.log(data)
+            });
+            $('#connect').click(function () {
+                    //- id : int- status : text
+                    //status can be "active", "finish", "error"
+                    console.log("XXXXXXXXXXXX", document.domain, location.port)
+                    socket.emit('make_connect', {user: "tovanlam"});
+                }
+            );
+
+            $('#status').click(function () {
+                    //- id : int- status : text
+                    //status can be "active", "finish", "error"
+                    var id = 1
+                    var status = "active"
+                    socket.emit('status', {id: id, status: status});
+                }
+            );
+            $('#image_frame').click(function () {
+
+                //-id : int - image : base64
+                // var id=1
+                // var image_frame="8a3bwef23"
+                // socket.emit('image_frame', {id:id, image_frame:image_frame});
+                // }
+                $.ajax({
+                    url: "/demo_image_frame",
+                    type: "POST"
+                });
+            });
+            $('#number_of_detected_person').click(function () {
+                    //- id : int - num : int
+                    var id = 1
+                    var num = 3
+                    socket.emit('number_of_detected_person', {id: id, num: num});
+                }
+            );
+            $('#detect_high_fever').click(function () {
+                    //- id : int - image : base64 - temp : text up to 1 decimal point
+                    var id = 1
+                    var image = "8a3bwef23"
+                    var temp = 38.2
+                    socket.emit('detect_high_fever', {id: id, image: image, temp: temp});
+                }
+            );
+            socket.on('turnoff', function () {
+                socket.emit('turnoff', {}, function () {
+                    socket.disconnect();
+                    // go back to the login page
+
+
+                });
+            });
+            //socket.on('logs', function (data) {
+
+            //    $('#chat').val($('#chat').val() + data.msg + '\n');
+            //    $('#chat').scrollTop($('#chat')[0].scrollHeight);
+            //});
+
+        });
+
+    </script>
+</head>
+<body>
+<h1>Well come {{ name }} to Thermal AI DEMO SocketIO- to Center in room: {{ room }}</h1>
+
+<input style="color: coral" type="button" id="connect" value="connect ">
+<input style="color: coral" type="button" id="status" value="update_status ">
+<input style="color: coral" type="button" id="image_frame" value="Send Image Frame ">
+<input style="color: coral" type="button" id="number_of_detected_person" value="Send Number on detect">
+<input style="color: coral" type="button" id="detect_high_fever" value="Send detected high fever ">
+<textarea style="display: block" id="chat" cols="80" rows="20"></textarea><br><br>
+
+</body>
+</html>

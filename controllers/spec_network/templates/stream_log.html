@@ -1,0 +1,15 @@
+<pre id="output" style="background-color: black;
+font-size: larger;
+color: whitesmoke; "></pre>
+<script>
+    var output = document.getElementById('output');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', "{{ url_for('stream_log') }}");
+    xhr.send();
+
+    setInterval(function () {
+        window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+        output.textContent = xhr.responseText;
+    }, 1000);
+</script>
